@@ -55,7 +55,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             className="font-display text-xl md:text-2xl font-bold text-gradient cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
-            &lt;Dev /&gt;
+            <img src="Logo.png" className='w-20' alt="" />
           </motion.a>
 
           {/* Desktop Navigation */}
