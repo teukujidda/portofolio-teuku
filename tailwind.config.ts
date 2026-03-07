@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         display: ['Space Grotesk', 'sans-serif'],
+        hero: ['Ephesis'],
       },
       colors: {
         border: "hsl(var(--border))",

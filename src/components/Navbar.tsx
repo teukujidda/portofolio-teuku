@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface NavbarProps {
   isDark: boolean;
@@ -20,12 +21,14 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const { language, toggleLanguage, t } = useLanguage();
+
   const navItems = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
+    { label: t('nav.home'), href: '#home' },
+    { label: t('nav.about'), href: '#about' },
+    { label: t('nav.skills'), href: '#skills' },
+    { label: t('nav.projects'), href: '#projects' },
+    { label: t('nav.contact'), href: '#contact' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -55,7 +58,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             className="font-display text-xl md:text-2xl font-bold text-gradient cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
-            <img src="Logo.png" className='w-20' alt="" />
+            <img src="Logo.png" className='w-20' alt="" /> 
           </motion.a>
 
           {/* Desktop Navigation */}
@@ -74,7 +77,17 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
                 {item.label}
               </motion.a>
             ))}
-            <Button
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleLanguage}
+                className="font-medium text-muted-foreground hover:text-foreground rounded-full flex gap-2 items-center px-4"
+              >
+                <Globe className="h-4 w-4" />
+                <span className="uppercase">{language}</span>
+              </Button>
+              <Button
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
@@ -102,10 +115,20 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
                 )}
               </AnimatePresence>
             </Button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-1 md:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleLanguage}
+              className="font-medium rounded-full flex gap-1 items-center px-2 text-muted-foreground"
+            >
+              <Globe className="h-4 w-4" />
+              <span className="uppercase text-xs">{language}</span>
+            </Button>
             <Button
               variant="ghost"
               size="icon"
