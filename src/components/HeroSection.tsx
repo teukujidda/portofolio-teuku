@@ -33,7 +33,7 @@ export default function HeroSection() {
             <div className="absolute -inset-2 bg-card/40 backdrop-blur-sm rounded-[2.25rem] border border-white/10 dark:border-white/5 -z-10 -rotate-2"></div>
             
             <div className="w-[280px] sm:w-[320px] lg:w-[420px] aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] glass-strong relative z-10 group">
-              <img src="dapaa.jpg" alt="Gambar" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+              <img src="Hero Foto.jpg" alt="Gambar" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"></div>
             </div>
           </motion.div>

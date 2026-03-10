@@ -79,6 +79,11 @@ export const translations = {
     'contact.formMessagePlaceholder': 'Tuliskan pesan Anda...',
     'contact.formSend': 'Kirim Pesan',
     'contact.formSending': 'Mengirim...',
+    'contact.formSent': 'Pesan Terkirim!',
+    'contact.successTitle': 'Pesan Terkirim! ✨',
+    'contact.successDesc': 'Terima kasih telah menghubungi saya. Saya akan membalas secepatnya.',
+    'contact.errorTitle': 'Gagal Mengirim',
+    'contact.errorDesc': 'Terjadi kesalahan. Silakan coba lagi atau hubungi langsung via email.',
 
     // Footer
     'footer.name': 'Teuku Hablil Jidda',
@@ -166,6 +171,11 @@ export const translations = {
     'contact.formMessagePlaceholder': 'Write your message...',
     'contact.formSend': 'Send Message',
     'contact.formSending': 'Sending...',
+    'contact.formSent': 'Message Sent!',
+    'contact.successTitle': 'Message Sent! ✨',
+    'contact.successDesc': 'Thank you for reaching out. I will reply as soon as possible.',
+    'contact.errorTitle': 'Failed to Send',
+    'contact.errorDesc': 'Something went wrong. Please try again or contact me directly via email.',
 
     // Footer
     'footer.name': 'Teuku Hablil Jidda',

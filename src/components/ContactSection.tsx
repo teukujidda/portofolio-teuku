@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
-import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Web3Forms access key - set this in your .env file
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '';
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, 'Nama harus diisi').max(100, 'Nama terlalu panjang'),
@@ -49,6 +51,7 @@ export default function ContactSection() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -78,23 +81,38 @@ export default function ContactSection() {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: formData,
+      // Send email via Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
 
-      if (error) throw error;
+      const data = await response.json();
+      if (!data.success) throw new Error(data.message || 'Failed to send');
+
+      setIsSent(true);
 
       toast({
-        title: 'Pesan Terkirim! ✨',
-        description: 'Terima kasih telah menghubungi saya. Saya akan membalas secepatnya.',
+        title: t('contact.successTitle'),
+        description: t('contact.successDesc'),
       });
 
       setFormData({ name: '', email: '', subject: '', message: '' });
+
+      // Reset success state after 5 seconds
+      setTimeout(() => setIsSent(false), 5000);
     } catch (error: any) {
       console.error('Error sending email:', error);
       toast({
-        title: 'Gagal Mengirim',
-        description: 'Terjadi kesalahan. Silakan coba lagi atau hubungi langsung via email.',
+        title: t('contact.errorTitle'),
+        description: t('contact.errorDesc'),
         variant: 'destructive',
       });
     } finally {
@@ -249,13 +267,22 @@ export default function ContactSection() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full rounded-full shadow-glow bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-[1.02]"
+                className={`w-full rounded-full shadow-glow transition-all duration-300 hover:scale-[1.02] ${
+                  isSent
+                    ? 'bg-green-500 hover:bg-green-500/90 text-white'
+                    : 'bg-primary hover:bg-primary/90 text-primary-foreground'
+                }`}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     {t('contact.formSending')}
+                  </>
+                ) : isSent ? (
+                  <>
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                    {t('contact.formSent')}
                   </>
                 ) : (
                   <>

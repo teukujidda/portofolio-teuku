@@ -56,11 +56,10 @@ export default function AboutSection() {
                   <Carousel className="w-full h-full" opts={{ loop: true }}>
                     <CarouselContent className="h-full mt-0 ml-0">
                       {/* Anda bisa mengganti foto-foto ini sesuai keinginan */}
-                      {['', '', ''].map((imgSrc, index) => (
-                        <CarouselItem key={index} className="pt-0 pl-0 relative h-full">
-                          <div className="w-full h-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center">
-                            <span className="text-muted-foreground/50 font-medium">Foto {index + 1}</span>
-                            <img src={imgSrc} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover hidden" />
+                      {['1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg'].map((imgSrc, index) => (
+                        <CarouselItem key={index} className="pt-0 pl-0 basis-full">
+                          <div className="w-full aspect-[4/5] bg-gradient-to-br from-primary/30 to-accent/30 relative overflow-hidden">
+                            <img src={`/${imgSrc}`} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover absolute inset-0" />
                           </div>
                         </CarouselItem>
                       ))}
