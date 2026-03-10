@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import SkillsSection from '@/components/SkillsSection';
-import ProjectsSection from '@/components/ProjectsSection';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
+
+// Lazy load sections below the fold
+const AboutSection = lazy(() => import('@/components/AboutSection'));
+const SkillsSection = lazy(() => import('@/components/SkillsSection'));
+const ProjectsSection = lazy(() => import('@/components/ProjectsSection'));
+const ContactSection = lazy(() => import('@/components/ContactSection'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,11 +46,13 @@ const Index = () => {
       <LoadingScreen isLoading={isLoading} />
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Footer />
+      <Suspense fallback={<div className="h-32 flex items-center justify-center">Loading...</div>}>
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ContactSection />
+        <Footer />
+      </Suspense>
     </div>
   );
 };
